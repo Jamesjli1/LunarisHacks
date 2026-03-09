@@ -1,26 +1,33 @@
 import { useMemo, useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { getOrbitData } from '../lib/storage'
-import type { OrbitProfile } from '../types/orbit'
+import type { OrbitConversation, OrbitData, OrbitProfile, OrbitUserProfile } from '../types/orbit'
 import { ProfilePanel } from '../components/Dashboard/ProfilePanel'
 import { InsightsPanels } from '../components/Dashboard/InsightsPanels'
 import { QuestsPanel } from '../components/Dashboard/QuestsPanel'
 import { FeedbackPanel } from '../components/Dashboard/FeedbackPanel'
 
 export function DashboardPage() {
-  const data = useMemo(() => getOrbitData(), [])
+  const data: OrbitData | null = useMemo(() => getOrbitData(), [])
   const [activeProfileId, setActiveProfileId] = useState<string | undefined>(
     data?.profiles?.[0]?.id,
   )
+  const [activeTab, setActiveTab] = useState<
+    'chat' | 'monitor' | 'sharedInterests' | 'stayingConnected' | 'quests' | 'feedback'
+  >('chat')
 
   const activeProfile: OrbitProfile | undefined = useMemo(
     () => data?.profiles?.find((p) => p.id === activeProfileId),
     [data, activeProfileId],
   )
 
-  const recentConversation = useMemo(
-    () => data?.conversations?.[0],
-    [data?.conversations],
+  const myProfile: OrbitUserProfile | undefined = data?.myProfile ?? undefined
+
+  const conversationsForProfile: OrbitConversation[] = useMemo(
+    () => (activeProfile && data?.conversations
+      ? data.conversations.filter((c) => c.profileId === activeProfile.id)
+      : []),
+    [data?.conversations, activeProfile],
   )
 
   return (
@@ -57,11 +64,78 @@ export function DashboardPage() {
 
       <ProfilePanel profile={activeProfile} />
 
-      <InsightsPanels data={data ?? undefined} activeProfile={activeProfile} />
+      <div className="mt-2 rounded-2xl border border-slate-200 bg-white p-3 sm:p-4">
+        <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-2 mb-3 text-sm">
+          {[
+            { id: 'chat', label: 'Orbit chat' },
+            { id: 'monitor', label: 'Monitor conversations' },
+            { id: 'sharedInterests', label: 'Interests & skills' },
+            { id: 'stayingConnected', label: 'Staying connected' },
+            { id: 'quests', label: 'Missions & quests' },
+            { id: 'feedback', label: 'Feedback on your style' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id as typeof activeTab)}
+              className={`inline-flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                activeTab === tab.id
+                  ? 'bg-orange-500 text-white shadow-sm shadow-orange-300/60'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <QuestsPanel profile={activeProfile} />
-        <FeedbackPanel recentConversation={recentConversation ?? undefined} />
+        {activeTab === 'chat' && (
+          <InsightsPanels data={data ?? undefined} activeProfile={activeProfile} />
+        )}
+
+        {activeTab === 'monitor' && (
+          <div className="mt-1">
+            <InsightsPanels
+              data={data ?? undefined}
+              activeProfile={activeProfile}
+              mode="monitor"
+              myProfile={myProfile}
+            />
+          </div>
+        )}
+
+        {activeTab === 'sharedInterests' && (
+          <div className="mt-1">
+            <InsightsPanels
+              data={data ?? undefined}
+              activeProfile={activeProfile}
+              mode="sharedInterests"
+              myProfile={myProfile}
+            />
+          </div>
+        )}
+
+        {activeTab === 'stayingConnected' && (
+          <div className="mt-1">
+            <InsightsPanels
+              data={data ?? undefined}
+              activeProfile={activeProfile}
+              mode="stayingConnected"
+            />
+          </div>
+        )}
+
+        {activeTab === 'quests' && (
+          <div className="mt-1">
+            <QuestsPanel profile={activeProfile} myProfile={myProfile} />
+          </div>
+        )}
+
+        {activeTab === 'feedback' && (
+          <div className="mt-1">
+            <FeedbackPanel conversations={conversationsForProfile} />
+          </div>
+        )}
       </div>
     </div>
   )

@@ -1,9 +1,10 @@
-import { Bell, FileJson, LayoutDashboard, LogOut } from 'lucide-react'
+import { Bell, FileJson, LayoutDashboard, LogOut, UserCircle2 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { DashboardPage } from '../pages/DashboardPage'
 import { DataCenterPage } from '../pages/DataCenterPage'
+import { ProfilePage } from '../pages/ProfilePage'
 
-type View = 'dashboard' | 'dataCenter'
+type View = 'dashboard' | 'dataCenter' | 'profile'
 
 type Props = {
   view: View
@@ -56,6 +57,18 @@ export function OrbitHubShell({ view, onChangeView }: Props) {
               <FileJson className="h-3.5 w-3.5" />
               Data Center
             </button>
+            <button
+              type="button"
+              onClick={() => onChangeView('profile')}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 transition ${
+                view === 'profile'
+                  ? 'bg-orange-500 text-white shadow-sm shadow-orange-300/60'
+                  : 'bg-white text-slate-600 hover:bg-orange-50'
+              }`}
+            >
+              <UserCircle2 className="h-3.5 w-3.5" />
+              Profile
+            </button>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -87,7 +100,9 @@ export function OrbitHubShell({ view, onChangeView }: Props) {
       </header>
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 px-4 py-4 sm:py-6">
-        {view === 'dashboard' ? <DashboardPage /> : <DataCenterPage />}
+        {view === 'dashboard' && <DashboardPage />}
+        {view === 'dataCenter' && <DataCenterPage />}
+        {view === 'profile' && <ProfilePage />}
       </main>
     </div>
   )

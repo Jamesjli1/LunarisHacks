@@ -1,0 +1,350 @@
+Example data for demo
+
+{
+  "myProfile": {
+    "id": "me-james",
+    "name": "James Orbit",
+    "email": "james@example.com",
+    "company": "Orbit Hub Labs",
+    "role": "Founder / Engineer",
+    "location": "San Francisco",
+    "interests": [
+      "AI agents",
+      "relationship tooling",
+      "career coaching",
+      "infra",
+      "design systems",
+      "writing"
+    ],
+    "skills": [
+      "full-stack engineering",
+      "product discovery",
+      "system design",
+      "infra reliability",
+      "mentoring",
+      "writing"
+    ],
+    "goals": [
+      "Ship Orbit Hub v1 with a small group of power users",
+      "Be more consistent with follow-ups to my top 20 people",
+      "Find 2–3 teams where my skills and interests strongly overlap"
+    ],
+    "projects": [
+      "Orbit Hub prototype",
+      "Chrome extension for DM export"
+    ]
+  },
+  "profiles": [
+    {
+      "id": "p1",
+      "name": "Alex Chen",
+      "company": "Northwind Systems",
+      "role": "Staff Engineer",
+      "interests": [
+        "infra",
+        "devops",
+        "distributed systems",
+        "career growth"
+      ],
+      "projects": [
+        "Internal developer platform",
+        "On-call simplification"
+      ],
+      "goals": [
+        "Move into an EM role",
+        "Reduce incident load for the team"
+      ],
+      "location": "New York"
+    },
+    {
+      "id": "p2",
+      "name": "Priya Singh",
+      "company": "Figma",
+      "role": "Product Designer",
+      "interests": [
+        "design systems",
+        "creative tools",
+        "AI for design",
+        "mentorship"
+      ],
+      "projects": [
+        "Design system tokens revamp"
+      ],
+      "goals": [
+        "Ship a flagship feature this year"
+      ],
+      "location": "London"
+    },
+    {
+      "id": "p3",
+      "name": "Diego Alvarez",
+      "company": "Acme Robotics",
+      "role": "Founder",
+      "interests": [
+        "robotics",
+        "AI agents",
+        "B2B SaaS",
+        "sales"
+      ],
+      "projects": [
+        "Pilot with 3 enterprise customers"
+      ],
+      "goals": [
+        "Close a seed round",
+        "Hire first PM"
+      ],
+      "location": "Madrid"
+    },
+    {
+      "id": "p4",
+      "name": "Sara Kim",
+      "company": "Freelance",
+      "role": "Career Coach",
+      "interests": [
+        "career coaching",
+        "writing",
+        "public speaking",
+        "habits"
+      ],
+      "projects": [
+        "Cohort-based course on career transitions"
+      ],
+      "goals": [
+        "Help 50 people land roles they love this year"
+      ],
+      "location": "Remote"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "c1",
+      "profileId": "p1",
+      "topic": "Infra platform and EM path",
+      "category": "work",
+      "liked": true,
+      "lastUpdated": "2026-03-06T19:30:00.000Z",
+      "messages": [
+        {
+          "id": "m1",
+          "from": "you",
+          "text": "How has the internal platform rollout felt in the last month? Still fighting with infra migrations and on-call load?",
+          "createdAt": "2026-03-06T19:00:00.000Z"
+        },
+        {
+          "id": "m2",
+          "from": "them",
+          "text": "Rollout is smoother now, but I’m spending more time on coordination than deep engineering work.",
+          "createdAt": "2026-03-06T19:05:00.000Z"
+        },
+        {
+          "id": "m3",
+          "from": "you",
+          "text": "That sounds pretty EM-like already. Have you brought up the EM path with your manager explicitly?",
+          "createdAt": "2026-03-06T19:15:00.000Z"
+        },
+        {
+          "id": "m4",
+          "from": "them",
+          "text": "Not yet, but I’d love your help framing the conversation around leadership and system design work.",
+          "createdAt": "2026-03-06T19:22:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "profileId": "p1",
+      "topic": "On-call simplification",
+      "category": "work",
+      "liked": false,
+      "lastUpdated": "2026-02-20T16:10:00.000Z",
+      "messages": [
+        {
+          "id": "m5",
+          "from": "you",
+          "text": "Last time you mentioned wanting a simpler on-call rotation for the infra team.",
+          "createdAt": "2026-02-20T15:40:00.000Z"
+        },
+        {
+          "id": "m6",
+          "from": "them",
+          "text": "Yeah, the current setup makes it hard for people to focus on deeper reliability projects.",
+          "createdAt": "2026-02-20T15:50:00.000Z"
+        },
+        {
+          "id": "m7",
+          "from": "you",
+          "text": "Maybe we can sketch a version that pushes more toil into automation and better system design.",
+          "createdAt": "2026-02-20T16:05:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "profileId": "p2",
+      "topic": "AI for design systems",
+      "category": "friends",
+      "liked": true,
+      "lastUpdated": "2026-03-05T18:40:00.000Z",
+      "messages": [
+        {
+          "id": "m8",
+          "from": "you",
+          "text": "That mock where AI suggested variants directly inside the design system panel was so good.",
+          "createdAt": "2026-03-05T18:10:00.000Z"
+        },
+        {
+          "id": "m9",
+          "from": "them",
+          "text": "Thanks! I’m trying to keep it playful so it doesn’t feel like the AI is taking over the canvas.",
+          "createdAt": "2026-03-05T18:15:00.000Z"
+        },
+        {
+          "id": "m10",
+          "from": "you",
+          "text": "Next time I want to hear how real teams are reacting when you put this into their design system workflow.",
+          "createdAt": "2026-03-05T18:30:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "c4",
+      "profileId": "p2",
+      "topic": "Mentorship and creative tools",
+      "category": "friends",
+      "liked": false,
+      "lastUpdated": "2026-02-10T12:20:00.000Z",
+      "messages": [
+        {
+          "id": "m11",
+          "from": "you",
+          "text": "You mentioned mentoring junior designers who are curious about systems thinking.",
+          "createdAt": "2026-02-10T11:50:00.000Z"
+        },
+        {
+          "id": "m12",
+          "from": "them",
+          "text": "Yeah, I’m trying to give them more structure around critique and visual systems, not just vibes.",
+          "createdAt": "2026-02-10T11:55:00.000Z"
+        },
+        {
+          "id": "m13",
+          "from": "you",
+          "text": "Would a little writing practice around their work help them reflect better?",
+          "createdAt": "2026-02-10T12:10:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "c5",
+      "profileId": "p3",
+      "topic": "Robotics startup and seed round",
+      "category": "work",
+      "liked": false,
+      "lastUpdated": "2026-03-02T21:10:00.000Z",
+      "messages": [
+        {
+          "id": "m14",
+          "from": "you",
+          "text": "How are investors reacting to the robotics angle plus AI agents?",
+          "createdAt": "2026-03-02T20:40:00.000Z"
+        },
+        {
+          "id": "m15",
+          "from": "them",
+          "text": "They like the story but want more proof on repeatable sales and a clearer go-to-market.",
+          "createdAt": "2026-03-02T20:45:00.000Z"
+        },
+        {
+          "id": "m16",
+          "from": "you",
+          "text": "Maybe we can map out three concrete customer stories with real ROI before your next pitch.",
+          "createdAt": "2026-03-02T21:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "c6",
+      "profileId": "p3",
+      "topic": "Hiring a PM",
+      "category": "work",
+      "liked": true,
+      "lastUpdated": "2026-02-15T14:05:00.000Z",
+      "messages": [
+        {
+          "id": "m17",
+          "from": "you",
+          "text": "What would the ideal first PM look like for you?",
+          "createdAt": "2026-02-15T13:40:00.000Z"
+        },
+        {
+          "id": "m18",
+          "from": "them",
+          "text": "Someone who understands technical products but is obsessed with talking to users.",
+          "createdAt": "2026-02-15T13:50:00.000Z"
+        },
+        {
+          "id": "m19",
+          "from": "you",
+          "text": "Let’s list the 3 hardest skills they’ll need so you can screen for that explicitly.",
+          "createdAt": "2026-02-15T14:05:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "c7",
+      "profileId": "p4",
+      "topic": "Career transitions and writing habit",
+      "category": "friends",
+      "liked": true,
+      "lastUpdated": "2026-03-01T16:20:00.000Z",
+      "messages": [
+        {
+          "id": "m20",
+          "from": "you",
+          "text": "Your thread on people underestimating how long career transitions take really landed.",
+          "createdAt": "2026-03-01T15:50:00.000Z"
+        },
+        {
+          "id": "m21",
+          "from": "them",
+          "text": "I’m glad. I want to normalize that it’s okay for it to be slow and messy.",
+          "createdAt": "2026-03-01T15:55:00.000Z"
+        },
+        {
+          "id": "m22",
+          "from": "you",
+          "text": "I’d love to hear more about how you keep your own writing habit going week after week.",
+          "createdAt": "2026-03-01T16:10:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "c8",
+      "profileId": "p4",
+      "topic": "Designing a cohort course",
+      "category": "work",
+      "liked": false,
+      "lastUpdated": "2026-02-05T10:20:00.000Z",
+      "messages": [
+        {
+          "id": "m23",
+          "from": "you",
+          "text": "How is the cohort-based course on career transitions going?",
+          "createdAt": "2026-02-05T10:00:00.000Z"
+        },
+        {
+          "id": "m24",
+          "from": "them",
+          "text": "Good, but I’m still figuring out pacing so people don’t feel behind.",
+          "createdAt": "2026-02-05T10:10:00.000Z"
+        },
+        {
+          "id": "m25",
+          "from": "you",
+          "text": "Maybe we can borrow some habit design tricks so people feel small wins each week.",
+          "createdAt": "2026-02-05T10:20:00.000Z"
+        }
+      ]
+    }
+  ]
+}

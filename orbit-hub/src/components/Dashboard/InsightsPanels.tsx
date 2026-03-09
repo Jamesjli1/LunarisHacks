@@ -1,5 +1,5 @@
 import { Activity, Briefcase, MessagesSquare, Target } from 'lucide-react'
-import type { OrbitConversation, OrbitData, OrbitProfile } from '../../types/orbit'
+import type { OrbitConversation, OrbitData, OrbitProfile, OrbitUserProfile } from '../../types/orbit'
 import { FeatureCard } from '../FeatureCard'
 import { ChatPanel } from './ChatPanel'
 
@@ -45,21 +45,36 @@ function rankConversations(conversations: OrbitConversation[]) {
 type Props = {
   data?: OrbitData | null
   activeProfile?: OrbitProfile
+  mode?: 'chat' | 'monitor' | 'sharedInterests' | 'stayingConnected'
+  myProfile?: OrbitUserProfile
 }
 
-export function InsightsPanels({ data, activeProfile }: Props) {
+export function InsightsPanels({ data, activeProfile, mode = 'chat', myProfile }: Props) {
   const conversations = data?.conversations ?? []
-  const ranked = rankConversations(conversations).slice(0, 3)
-
-  const primaryConversation = ranked[0]
+  const ranked = rankConversations(
+    conversations.filter((c) => (activeProfile ? c.profileId === activeProfile.id : true)),
+  ).slice(0, 3)
 
   const interests = activeProfile?.interests ?? []
   const companySuggestions = suggestCompanies(interests)
 
-  return (
-    <div className="grid gap-3 sm:grid-cols-2">
-      <ChatPanel profile={activeProfile} />
+  const sharedInterests =
+    myProfile && activeProfile && myProfile.interests && activeProfile.interests
+      ? activeProfile.interests.filter((i) =>
+          myProfile.interests!.map((x) => x.toLowerCase()).includes(i.toLowerCase()),
+        )
+      : []
 
+  if (mode === 'chat') {
+    return (
+      <div>
+        <ChatPanel profile={activeProfile} />
+      </div>
+    )
+  }
+
+  if (mode === 'monitor') {
+    return (
       <FeatureCard
         title="Monitor conversations"
         description="Short summaries of what you last talked about so you can pick the thread back up quickly."
@@ -68,16 +83,28 @@ export function InsightsPanels({ data, activeProfile }: Props) {
       >
         {ranked.length > 0 ? (
           <ul className="space-y-1.5 text-sm text-slate-700">
-            {ranked.map((c) => (
-              <li key={c.id} className="rounded-md bg-white p-3 border border-slate-200">
-                <p className="mb-0.5 text-sm font-semibold text-slate-900">
-                  {c.topic ?? 'Conversation'}
-                </p>
-                <p className="text-sm text-slate-600">
-                  {summarizeConversationText(c)}
-                </p>
-              </li>
-            ))}
+            {ranked.map((c) => {
+              const allText = c.messages.map((m) => m.text.toLowerCase()).join(' ')
+              const skillsMentioned =
+                myProfile?.skills?.filter((skill) =>
+                  allText.includes(skill.toLowerCase().split(' ')[0]),
+                ) ?? []
+
+              return (
+                <li key={c.id} className="rounded-md bg-white p-3 border border-slate-200 space-y-1">
+                  <p className="mb-0.5 text-sm font-semibold text-slate-900">
+                    {c.topic ?? 'Conversation'}
+                  </p>
+                  <p className="text-sm text-slate-600">{summarizeConversationText(c)}</p>
+                  {skillsMentioned.length > 0 && (
+                    <p className="text-xs text-slate-500">
+                      <span className="font-semibold">Skills talked about:</span>{' '}
+                      {skillsMentioned.join(', ')}
+                    </p>
+                  )}
+                </li>
+              )
+            })}
           </ul>
         ) : (
           <p className="text-sm text-slate-500">
@@ -86,38 +113,38 @@ export function InsightsPanels({ data, activeProfile }: Props) {
           </p>
         )}
       </FeatureCard>
+    )
+  }
 
+  if (mode === 'sharedInterests') {
+    return (
       <FeatureCard
-        title="Interest-based suggestions"
-        description="Companies and people to explore based on what this person cares about."
+        title="Shared interests"
+        description="Overlap between what you care about and what they care about."
         icon={Briefcase}
         accent="amber"
       >
-        {interests.length > 0 ? (
-          <div className="space-y-1.5 text-sm">
-            <p className="text-slate-700">
-              They seem interested in{' '}
-              <span className="font-semibold">{interests.slice(0, 4).join(', ')}</span>.
-            </p>
-            {companySuggestions.length > 0 && (
-              <ul className="space-y-0.5 text-slate-700">
-                {companySuggestions.map((suggestion) => (
-                  <li key={suggestion} className="flex gap-1.5">
-                    <Target className="mt-0.5 h-3 w-3 text-amber-300" />
-                    <span>{suggestion}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+        {sharedInterests.length > 0 ? (
+          <ul className="space-y-1 text-sm text-slate-700">
+            {sharedInterests.map((interest) => (
+              <li key={interest} className="flex gap-1.5">
+                <Target className="mt-0.5 h-3 w-3 text-amber-400" />
+                <span>{interest}</span>
+              </li>
+            ))}
+          </ul>
         ) : (
           <p className="text-sm text-slate-500">
-            Add interests for this profile in your JSON payload and we&apos;ll recommend themed
-            companies and people to research.
+            Once both you and this person have interests filled out, we&apos;ll highlight where you
+            overlap.
           </p>
         )}
       </FeatureCard>
+    )
+  }
 
+  if (mode === 'stayingConnected') {
+    return (
       <FeatureCard
         title="Staying connected"
         description="Lightweight nudges that remind you when it’s a good moment to check in."
@@ -126,27 +153,41 @@ export function InsightsPanels({ data, activeProfile }: Props) {
       >
         {conversations.length > 0 ? (
           <ul className="space-y-1.5 text-sm text-slate-700">
-            {conversations.slice(0, 3).map((c) => (
-              <li key={c.id} className="flex gap-1.5 rounded-md bg-white p-3 border border-slate-200">
-                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-rose-400" />
-                <span>
-                  It&apos;s a good time to check in about{' '}
-                  <span className="font-semibold">
-                    {c.topic ?? 'their current project'}
+            {conversations.slice(0, 3).map((c) => {
+              const last = new Date(c.lastUpdated)
+              const next = new Date(last.getTime() + 14 * 24 * 60 * 60 * 1000)
+              const nextLabel = next.toLocaleDateString(undefined, {
+                month: 'short',
+                day: 'numeric',
+              })
+              return (
+                <li
+                  key={c.id}
+                  className="flex gap-1.5 rounded-md bg-white p-3 border border-slate-200"
+                >
+                  <span className="mt-1 h-2 w-2 rounded-full bg-rose-400" />
+                  <span>
+                    Check in again around{' '}
+                    <span className="font-semibold">{nextLabel}</span> about{' '}
+                    <span className="font-semibold">
+                      {c.topic ?? 'their current project'}
+                    </span>
+                    .
                   </span>
-                  . Ask how things have evolved since you last spoke.
-                </span>
-              </li>
-            ))}
+                </li>
+              )
+            })}
           </ul>
         ) : (
           <p className="text-sm text-slate-500">
-            As you add conversations, we&apos;ll start proposing simple, actionable check-in
-            moments here.
+            As you add conversations, we&apos;ll suggest simple, time-based follow-ups so you don&apos;t
+            lose touch.
           </p>
         )}
       </FeatureCard>
-    </div>
-  )
+    )
+  }
+
+  return null
 }
 

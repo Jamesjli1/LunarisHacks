@@ -3,7 +3,7 @@ import { OrbitHubShell } from './components/OrbitHubShell'
 import { AuthPage } from './pages/AuthPage'
 import { AuthProvider, useAuth } from './context/AuthContext'
 
-type AppView = 'dashboard' | 'dataCenter'
+type AppView = 'dashboard' | 'dataCenter' | 'profile'
 
 function AppInner() {
   const { user } = useAuth()

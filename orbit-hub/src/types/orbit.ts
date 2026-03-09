@@ -32,7 +32,21 @@ export type OrbitConversation = {
   lastUpdated: string
 }
 
+export type OrbitUserProfile = {
+  id: string
+  name: string
+  email?: string
+  company?: string
+  role?: string
+  interests?: string[]
+  skills?: string[]
+  goals?: string[]
+  location?: string
+  projects?: string[]
+}
+
 export type OrbitData = {
+  myProfile?: OrbitUserProfile
   profiles: OrbitProfile[]
   conversations: OrbitConversation[]
 }
